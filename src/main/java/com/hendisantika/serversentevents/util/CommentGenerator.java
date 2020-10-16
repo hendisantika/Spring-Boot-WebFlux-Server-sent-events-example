@@ -1,5 +1,6 @@
 package com.hendisantika.serversentevents.util;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -34,4 +35,15 @@ public class CommentGenerator {
                     "Hello everyone here?",
                     "Good!");
 
+    public static String randomAuthor() {
+        return COMMENT_AUTHOR.get(RANDOM.nextInt(COMMENT_AUTHOR.size()));
+    }
+
+    public static String randomMessage() {
+        return COMMENT_MESSAGE.get(RANDOM.nextInt(COMMENT_MESSAGE.size()));
+    }
+
+    public static String getCurrentTimeStamp() {
+        return dtf.format(LocalDateTime.now());
+    }
 }
