@@ -1,13 +1,41 @@
 package com.hendisantika.serversentevents;
 
+import com.hendisantika.serversentevents.entity.Comment;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.reactive.server.WebTestClient;
 
-@SpringBootTest
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ServerSentEventsApplicationTests {
 
+    @Autowired
+    private WebTestClient webClient;
+
     @Test
-    void contextLoads() {
+    public void testCommentStream() {
+
+        List<Comment> comments = webClient
+                .get().uri("/comment/stream")
+                .accept(MediaType.valueOf(MediaType.TEXT_EVENT_STREAM_VALUE))
+                .exchange()
+                .expectStatus().isOk()
+                //.expectHeader().contentType(MediaType.APPLICATION_STREAM_JSON) // caused timeout
+                .returnResult(Comment.class)
+                .getResponseBody()
+                .take(3)
+                .collectList()
+                .block();
+
+        comments.forEach(x -> System.out.println(x));
+
+        assertEquals(3, comments.size());
+
     }
 
 }
