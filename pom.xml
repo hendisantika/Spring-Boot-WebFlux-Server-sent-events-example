@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <junit-jupiter.version>6.0.2</junit-jupiter.version>
+        <junit-jupiter.version>6.0.3</junit-jupiter.version>
     </properties>
 
     <dependencies>
